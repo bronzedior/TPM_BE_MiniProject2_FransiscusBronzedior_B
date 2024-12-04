@@ -18,10 +18,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">Home</a>
+                        <a href="{{route('welcome')}}" class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('addConsultant')}}">Insert</a>
+                        <a href="{{route('addConsultant')}}" class="nav-link" href="#">Insert</a>
                     </li>
                 </ul>
             </div>
@@ -31,24 +31,38 @@
     <h1 class="text-center">Our Consultants</h1>
 
     <div class="m-5">
-        <a href="{{route('addConsultant')}}">
-            <button href="" class="btn btn-success">Insert</button>
+        <a href="{{route('addConsultant')}}" class="">
+            <button class="btn btn-success">Insert</button>
         </a>
     </div>
 
-    <div class="d-flex flex-row justify-content-center gap-5">
-        <div class="card" style="width: 18rem;">
-            {{-- <img src="" class="card-img-top" alt="..."> --}}
-            <div class="card-body">
-                <h5 class="card-title">Name:</h5>
-                <p class="card-text">Email:</p>
-                <p class="card-text">Position:</p>
-                <p class="card-text">Reimbursement:</p>
-                <p class="card-text">Availability:</p>
-                <p class="card-text">Project:</p>
-                <a href="" class="btn btn-success">Edit</a>
-                <button type="" class="btn btn-danger">Delete</button>
+    <div class="container">
+        <div class="row">
+            @foreach ($consultants as $consultant)
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card" style="width: 100%;">
+                    <img src="{{asset('/storage/images/'.$consultant->image)}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Name: {{$consultant->name}}</h5>
+                        <p class="card-text">Position: {{$consultant->position}}</p>
+                        <p class="card-text">Industry: {{$consultant->industry}}</p>
+                        <p class="card-text">Expertise: {{$consultant->expertise}}</p>
+                        <p class="card-text">Hourly Rate (Ribu rupiah): {{$consultant->hourlyRate}}</p>
+                        <p class="card-text">Availability: {{$consultant->availability}}</p>
+                        <p class="card-text">Project: {{$consultant->client->needs}}</p>
+                        <p class="card-text">Duration (Weeks): {{$consultant->client->duration}}</p>
+                        <p class="card-text">Compensation (Ribu rupiah): {{$consultant->client->compensation}}</p>
+                        <a href="{{route('editConsultant', $consultant->id)}}" class="btn btn-success">Edit</a>
+
+                        <form action="{{route('deleteConsultant', $consultant->id)}}" method="POST">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            @endforeach
         </div>
     </div>
 

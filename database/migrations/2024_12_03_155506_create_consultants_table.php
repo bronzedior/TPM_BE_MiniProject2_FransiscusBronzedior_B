@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('consultants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
-            $table->integer('reimbursement');
+            $table->string('position');
+            $table->string('industry');
+            $table->string('expertise');
+            $table->integer('hourlyRate'); // dinyatakan dalam ribuan rupiah
             $table->date('availability');
+            $table->string('image');
+
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
